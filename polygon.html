@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <script>
+        
+          function drawPolygon(context, centerx, centery, nSides, sideLength, strokeColor){
+            
+            context.beginPath();
+            context.moveTo(centerx, centery - sideLength);
+
+            for (var i = 1; i <= nSides; i++) {
+              var x = centerx + sideLength * Math.sin(2*Math.PI/nSides * i);
+              var y = centery - sideLength * Math.cos(2*Math.PI/nSides*i);
+              context.lineTo(x, y);
+            }
+            
+            context.lineWidth = 2;
+            context.strokeStyle = strokeColor;
+            context.stroke();
+            context.fillStyle = "yellow";
+            context.fill();                        
+            context.closePath();
+          }
+          
+          function drawCanvasSize(context, canvasWidth, canvasHeight, strokeColor){
+            context.beginPath();
+            context.rect(0,0,canvasWidth, canvasHeight);
+            context.lineWidth = 2;
+            context.strokeStyle = strokeColor;
+            context.stroke();
+            context.closePath();            
+          }
+          
+          window.onload = function(){
+            var canvas = document.getElementById("myCanvas");
+            var context = canvas.getContext("2d");
+            
+            drawCanvasSize(context, canvas.width, canvas.height, "blue");
+            
+            var nSides = 7;
+            var sideLength = 90; 
+            drawPolygon(context, canvas.width/2, canvas.height/2, nSides, sideLength, "green");
+          };
+ 
+        </script>
+    </head>
+    <body>
+        <canvas id="myCanvas" width="578" height="200">
+        </canvas>
+    </body>
+</html>

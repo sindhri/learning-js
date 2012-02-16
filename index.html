@@ -1,8 +1,54 @@
-<!DOCTYPE html>
-<html>
+<head>
+  <script src="http://www.html5canvastutorials.com/libraries/kinetic-v3.7.1.js">
+  </script>
+  <script>
+    function drawCanvasSize(context, canvasWidth, canvasHeight, strokeColor){
+      context.beginPath();
+      context.rect(0,0,canvasWidth, canvasHeight);
+      context.lineWidth = 2;
+      context.strokeStyle = strokeColor;
+      context.stroke();
+      context.closePath();            
+    }
+    window.onload = function() {
+      var stage = new Kinetic.Stage("container", 578, 200);
+      var shapesLayer = new Kinetic.Layer();
+      var rectX = stage.width/2 - 50;
+      var rectY = stage.height/2 - 25;
 
+      var triangle = new Kinetic.Shape(function(){
+        var context = this.getContext();
+        context.beginPath();
+        context.lineWidth = 2;
+        context.strokeStyle = "red";
+        context.fillStyle = "#00D2FF";
+        context.moveTo(120, 50);
+        context.lineTo(200, 150);
+        context.lineTo(80, 150);
+        context.lineTo(120, 50);
+        context.closePath();
+        context.fill();
+        context.stroke();
+      });
 
-<body>
-Test
+      triangle.draggable(true);
+      
+      triangle.on("mouseout", function(){
+        document.body.style.cursor = "pointer";
+      });
+      
+      triangle.on("mousemove", function(){
+        document.body.style.cursor = "default";
+      });
+      
+      shapesLayer.add(triangle);
+      stage.add(shapesLayer);
+
+    };
+    
+  </script>
+</head>
+<body onmousedown="return false;">
+  <div id="container">
+  </div>
 </body>
-</html>

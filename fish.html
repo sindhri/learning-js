@@ -1,0 +1,164 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <script type="text/javascript" src="jquery.js"></script>    
+   
+  <script>
+    window.requestAnimFrame = (function(callback){
+      return window.requestAnimationFrame ||
+      window.webkitRequestAnimationFrame ||
+      window.mozRequestAnimationFrame ||
+      window.oRequestAnimationFrame ||
+      window.msRequestAnimationFrame ||
+      function(callback){
+        window.setTimeout(callback, 1000 / 60);
+      };      
+    })();
+    
+    function drawRect(width, height, fillColor, canvas, topleftX, topleftY) {
+      var context = canvas.getContext("2d");
+      context.beginPath();
+      context.rect(topleftX, topleftY, width, height);
+      
+      context.fillStyle = fillColor;
+      context.fill();
+      context.lineWidth = 2;
+      context.strokeStyle = "black";
+      context.stroke();
+      context.closePath();
+    }
+    
+    function drawCircle(radius,fillColor, canvas, centerX, centerY) {
+      var context = canvas.getContext("2d");
+      context.beginPath();
+      context.arc(centerX, centerY, radius, 0, Math.PI*2, true);
+      
+      context.fillStyle = fillColor;
+      context.fill();
+      context.lineWidth = 2;
+      context.strokeStyle = "black";
+      context.stroke();
+      context.closePath();
+    }
+    
+    function Rect (option) {
+      this.draw = function (canvas) {
+        drawRect(option.width, option.height, option.color, canvas, option.x, option.y);
+      };
+    }
+    
+    function Circle (option) {
+      this.draw = function (canvas) {
+        drawCircle(option.radius, option.color, canvas, option.x, option.y);
+      };
+    }
+    
+    function WriteText (option) {
+      this.draw = function (canvas) {
+        var context = canvas.getContext("2d");
+        context.beginPath();
+        context.font = option.font;
+        context.fillStyle = option.color;
+        context.lineWidth = 3;
+        context.fillText(option.text, option.x, option.y);
+        context.closePath();
+      }
+    }
+    
+    function MyImage (option) {
+      this.draw = function (canvas) {
+        var context = canvas.getContext("2d");
+        var imageObj = new Image();
+        imageObj.onload = function() {
+          context.drawImage(imageObj, option.x, option.y);
+        };
+        imageObj.src = option.filename;
+      };
+    }
+    
+    function Slide(duration, drawables) {
+      this.duration = duration;
+      this.drawables = drawables;
+    }
+    
+    function animate(lastTime, slide, canvas){
+      var context = canvas.getContext("2d");
+      var date = new Date();
+      var timeDiff = date.getTime() - lastTime;
+        
+        if (timeDiff > slide.duration){
+          context.clearRect(0, 0, canvas.width, canvas.height);
+          $.each(slide.drawables, function(index, drawable) {
+            drawable.draw(canvas);            
+          });
+          lastTime = date.getTime();          
+        }
+        else{
+          requestAnimFrame(function(){
+            animate(lastTime, slide, canvas);
+          });
+        }
+    }
+    
+    function full() {
+    var el = document.getElementById('screen');
+
+    if(el.webkitRequestFullScreen) {
+        el.webkitRequestFullScreen();
+    }
+    else {
+        el.mozRequestFullScreen();
+    }
+
+    console.log('fullscreen!');
+    clearInterval(timer);
+}
+
+    function resize() {
+        var rect = c.getBoundingClientRect();
+        c.width = rect.width;
+        c.height = rect.height;
+    }
+
+    function on_fullscreen_change() {
+        if(document.mozFullScreen || document.webkitIsFullScreen) {
+            resize();
+        }
+        else {
+            c.width = 500;
+            c.height = 400;
+        }
+
+        timer = setInterval(update, 50);
+        ctx.shadowColor = '#000000';
+        ctx.shadowBlur = 5;
+    }
+
+    
+    window.onload = function(){
+      
+      var canvas = document.getElementById("myCanvas");
+      var date   = new Date();
+
+      canvas.addEventListener('mozfullscreenchange', on_fullscreen_change);
+      canvas.addEventListener('webkitfullscreenchange', on_fullscreen_change);
+      
+      $(document).ready(function() {
+        $.getJSON('/fish.json', function(data) {   
+         $.each(data, function(index, slide_data) {
+            var drawables = $.map(slide_data.contents, function(drawable){
+              return new window[drawable[0]](drawable[1]);
+            });
+          
+            animate(date.getTime(), new Slide(slide_data.duration, drawables), canvas);      
+          });   
+        }); 
+      });
+    };  
+  </script>
+</head>
+<body>
+  <canvas id="myCanvas" width="1440" height="900">
+  </canvas>
+</body>
+</html>
