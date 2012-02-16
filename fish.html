@@ -111,7 +111,7 @@
     }
 
     console.log('fullscreen!');
-    clearInterval(timer);
+//    clearInterval(timer);
 }
 
     function resize() {
@@ -137,10 +137,12 @@
     $(document).ready(function() {
       var canvas = document.getElementById("myCanvas");
       var date   = new Date();
-
+      full();
       canvas.addEventListener('mozfullscreenchange', on_fullscreen_change);
       canvas.addEventListener('webkitfullscreenchange', on_fullscreen_change);
+      
 
+      
       $.getJSON('fish.json', function(data) {   
         $.each(data, function(index, slide_data) {
           var drawables = $.map(slide_data.contents, function(drawable){
