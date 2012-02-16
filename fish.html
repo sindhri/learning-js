@@ -144,7 +144,7 @@
       canvas.addEventListener('webkitfullscreenchange', on_fullscreen_change);
       
       $(document).ready(function() {
-        $.getJSON('/fish.json', function(data) {   
+        $.getJSON('fish.json', function(data) {   
          $.each(data, function(index, slide_data) {
             var drawables = $.map(slide_data.contents, function(drawable){
               return new window[drawable[0]](drawable[1]);
