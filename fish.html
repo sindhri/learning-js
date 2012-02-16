@@ -101,7 +101,7 @@
     }
     
     function full() {
-    var el = document.getElementById('screen');
+    var el = document.getElementById('myCanvas');
 
     if(el.webkitRequestFullScreen) {
         el.webkitRequestFullScreen();
@@ -133,28 +133,24 @@
         ctx.shadowColor = '#000000';
         ctx.shadowBlur = 5;
     }
-
-    
-    window.onload = function(){
       
+    $(document).ready(function() {
       var canvas = document.getElementById("myCanvas");
       var date   = new Date();
 
       canvas.addEventListener('mozfullscreenchange', on_fullscreen_change);
       canvas.addEventListener('webkitfullscreenchange', on_fullscreen_change);
-      
-      $(document).ready(function() {
-        $.getJSON('fish.json', function(data) {   
-         $.each(data, function(index, slide_data) {
-            var drawables = $.map(slide_data.contents, function(drawable){
-              return new window[drawable[0]](drawable[1]);
-            });
-          
-            animate(date.getTime(), new Slide(slide_data.duration, drawables), canvas);      
-          });   
-        }); 
-      });
-    };  
+
+      $.getJSON('fish.json', function(data) {   
+        $.each(data, function(index, slide_data) {
+          var drawables = $.map(slide_data.contents, function(drawable){
+            return new window[drawable[0]](drawable[1]);
+          });
+        
+          animate(date.getTime(), new Slide(slide_data.duration, drawables), canvas);      
+        });   
+      }); 
+    });
   </script>
 </head>
 <body>
