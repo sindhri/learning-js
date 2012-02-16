@@ -100,8 +100,7 @@
         }
     }
     
-    function full() {
-    var el = document.getElementById('myCanvas');
+    function full(el) {
 
     if(el.webkitRequestFullScreen) {
         el.webkitRequestFullScreen();
@@ -139,7 +138,7 @@
       var date   = new Date();
       
       $('button#fullscreen').click(function(e){
-        full();
+        full(canvas);
 
         e.preventDefault();
       });
@@ -162,6 +161,7 @@
   </script>
 </head>
 <body>
+  <button id="fullscreen">Full Screen</button>
   <canvas id="myCanvas" width="1440" height="900">
   </canvas>
 </body>
