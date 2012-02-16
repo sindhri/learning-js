@@ -137,7 +137,13 @@
     $(document).ready(function() {
       var canvas = document.getElementById("myCanvas");
       var date   = new Date();
-      full();
+      
+      $('button#fullscreen').click(function(e){
+        full();
+
+        e.preventDefault();
+      });
+      
       canvas.addEventListener('mozfullscreenchange', on_fullscreen_change);
       canvas.addEventListener('webkitfullscreenchange', on_fullscreen_change);
       
