@@ -150,14 +150,14 @@
           var time_offset = 2000;
         
           $.each(data, function(index, slide_data) {
-            time_offset         = time_offset + slide_data.duration;
             slide_data.run_time = time_offset;   
-
+            console.log(slide_data.run_time);
             var drawables = $.map(slide_data.contents, function(drawable){
               return new window[drawable[0]](drawable[1]);
             });
         
-            animate(date.getTime(), new Slide(slide_data.run_time, drawables), canvas);      
+            animate(date.getTime(), new Slide(slide_data.run_time, drawables), canvas);
+            time_offset = time_offset + slide_data.duration;      
           });   
         }); 
       });
