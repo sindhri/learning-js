@@ -149,12 +149,18 @@
 
       
       $.getJSON('fish.json', function(data) {   
+        var time_offset = 3000;
+        
         $.each(data, function(index, slide_data) {
+          time_offset         = time_offset + slide_data.duration;
+          slide_data.run_time = time_offset;
+            
+
           var drawables = $.map(slide_data.contents, function(drawable){
             return new window[drawable[0]](drawable[1]);
           });
         
-          animate(date.getTime(), new Slide(slide_data.duration, drawables), canvas);      
+          animate(date.getTime(), new Slide(slide_data.run_time, drawables), canvas);      
         });   
       }); 
     });

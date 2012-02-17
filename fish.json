@@ -1,12 +1,12 @@
 [ 
- { "duration": 11000, 
+ { "duration": 1000, 
    "contents": [["WriteText", {"x": 720, "y": 450, "text": "+", "font": "40pt Calibri", "color": "black" }]]},
- { "duration": 12000,
+ { "duration": 1000,
    "contents": [["WriteText", {"x": 720, "y": 450, "text": "+", "font": "40pt Calibri", "color": "black" }], 
                 ["WriteText", {"x": 720, "y": 550, "text": "*", "font": "40pt Calibri", "color": "black" }]]},
- { "duration": 13000,
+ { "duration": 1700,
    "contents": [["WriteText", {"x": 720, "y": 450, "text": "+", "font": "40pt Calibri", "color": "black" }],
                ["MyImage", {"x": 420, "y": 550, "filename": "fish_picture/img_blue_congruent_left_small.jpg"}]]},
- { "duration": 14700,
+ { "duration": 1000,
    "contents": [["WriteText", {"x": 720, "y": 450, "text": "+", "font": "40pt Calibri", "color": "black" }]]}
 ]
