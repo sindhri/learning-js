@@ -134,40 +134,38 @@
     }
       
     $(document).ready(function() {
-      var canvas = document.getElementById("myCanvas");
-      var date   = new Date();
-      
-      $('button#fullscreen').click(function(e){
+      $('button#play').click(function(e){ 
+        var canvas = document.getElementById("myCanvas");
+        var date   = new Date();     
+        var context = canvas.getContext("2d"); 
+         
         full(canvas);
-
+        context.clearRect(0, 0, canvas.width, canvas.height);
         e.preventDefault();
-      });
-      
-      canvas.addEventListener('mozfullscreenchange', on_fullscreen_change);
-      canvas.addEventListener('webkitfullscreenchange', on_fullscreen_change);
-      
-
-      
-      $.getJSON('fish.json', function(data) {   
-        var time_offset = 3000;
-        
-        $.each(data, function(index, slide_data) {
-          time_offset         = time_offset + slide_data.duration;
-          slide_data.run_time = time_offset;
             
+        canvas.addEventListener('mozfullscreenchange', on_fullscreen_change);
+        canvas.addEventListener('webkitfullscreenchange', on_fullscreen_change);
 
-          var drawables = $.map(slide_data.contents, function(drawable){
-            return new window[drawable[0]](drawable[1]);
-          });
+        $.getJSON('fish.json', function(data) {   
+          var time_offset = 2000;
         
-          animate(date.getTime(), new Slide(slide_data.run_time, drawables), canvas);      
-        });   
-      }); 
+          $.each(data, function(index, slide_data) {
+            time_offset         = time_offset + slide_data.duration;
+            slide_data.run_time = time_offset;   
+
+            var drawables = $.map(slide_data.contents, function(drawable){
+              return new window[drawable[0]](drawable[1]);
+            });
+        
+            animate(date.getTime(), new Slide(slide_data.run_time, drawables), canvas);      
+          });   
+        }); 
+      });
     });
   </script>
 </head>
 <body>
-  <button id="fullscreen">Full Screen</button>
+  <button id="play">Play</button>
   <canvas id="myCanvas" width="1440" height="900" style="background-color: white;">
   </canvas>
 </body>
